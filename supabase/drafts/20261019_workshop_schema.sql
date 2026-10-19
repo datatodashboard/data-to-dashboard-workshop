@@ -32,7 +32,7 @@ create table public.workshop_registrations (
   event_id bigint not null references public.workshop_events(id) on delete restrict,
   full_name text not null check (char_length(btrim(full_name)) between 1 and 120),
   email text not null check (email = lower(email)),
-  phone_e164 text not null check (phone_e164 ~ '^\\+[1-9][0-9]{7,14}$'),
+  phone_e164 text not null check (phone_e164 ~ '^[+][1-9][0-9]{7,14}$'),
   sql_level text not null check (sql_level in ('new', 'beginner', 'working')),
   learning_goal text,
   status text not null default 'payment_pending'

@@ -2,6 +2,8 @@
 
 This directory is deliberately separate from the existing Cloudflare D1 implementation and from every existing Crack SQL table.
 
+The additive production schema was applied to the Crack SQL Supabase project on 2026-10-19. It created only the four \`workshop_*\` tables. The live migration history includes \`workshop_schema_v1\` and two empty-table phone-validation corrections; the final accepted format is E.164, such as \`+919876543210\`.
+
 ## What is safe to do now
 
 - Review the draft schema in `drafts/20261019_workshop_schema.sql`.
