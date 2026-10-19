@@ -1,0 +1,8 @@
+[functions.workshop-create-order]
+verify_jwt = false
+
+[functions.workshop-verify-payment]
+verify_jwt = false
+
+[functions.workshop-razorpay-webhook]
+verify_jwt = false
