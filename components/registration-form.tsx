@@ -37,17 +37,19 @@ export function RegistrationForm() {
         key: data.keyId, amount: data.amount, currency: "INR", name: "Data to Dashboard", description: "SQL for Data Analysis Workshop", order_id: data.orderId,
         prefill: { name: form.fullName, email: form.email, contact: form.phone }, theme: { color: "#075e54" },
         handler: async (payment: Record<string, string>) => {
+          try {
           const verification = await fetch("/api/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payment) });
-          const verified = (await verification.json()) as { error?: string; registrationId?: string };
-          if (!verification.ok) { setState("idle"); setError(verified.error ?? "Payment verification is pending. We will update you shortly."); return; }
+          const verified = (await verification.json()) as { error?: string; registrationId?: string; success?: boolean; pending?: boolean };
+          if (!verification.ok || verified.success !== true || verified.pending) { setState("idle"); setError(verified.error ?? "Payment verification is pending. We will update you shortly."); return; }
           setRegistrationId(verified.registrationId ?? data.registrationId ?? ""); setState("success");
+          } catch { setState("idle"); setError("Payment confirmation is pending. Please do not pay again. Contact Data to Dashboard with your payment ID."); }
         }, modal: { ondismiss: () => setState("idle") },
       });
       checkout.open();
     } catch (caught) { setState("idle"); setError(caught instanceof Error ? caught.message : "Please try again."); }
   }
 
-  if (state === "success") return <div className="success-panel" role="status"><CheckCircle2 size={52} /><h3>Your seat is confirmed!</h3><p>We’ve sent the workshop details and calendar invite to your email.</p>{registrationId && <small>Registration ID: {registrationId}</small>}</div>;
+  if (state === "success") return <div className="success-panel" role="status"><CheckCircle2 size={52} /><h3>Your seat is confirmed!</h3><p>Your payment has been verified. Please keep your registration ID for workshop access.</p>{registrationId && <small>Registration ID: {registrationId}</small>}</div>;
 
   return (
     <form className="registration-form" onSubmit={submit}>
