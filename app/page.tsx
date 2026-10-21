@@ -23,8 +23,8 @@ export default function Home() {
             <p className="tamil-hero">தரவிலிருந்து தெளிவான பதிலை SQL மூலம் கண்டறியுங்கள்.</p>
             <p className="hero-lead">A focused 3-hour workshop that helps you think through data problems, build queries step by step and understand the result—not just copy syntax.</p>
             <div className="event-strip" aria-label="Workshop details">
-              <div><CalendarDays /><span><strong>13 Sep 2026</strong>Sunday • ஞாயிறு</span></div>
-              <div><Clock3 /><span><strong>10 AM–1 PM</strong>3 மணி நேரம்</span></div>
+              <div><CalendarDays /><span><strong>14 November 2026</strong>Every Saturday &amp; Sunday</span></div>
+              <div><Clock3 /><span><strong>10 AM–1 PM IST</strong>3 மணி நேரம்</span></div>
               <div><Laptop2 /><span><strong>Live online</strong>நேரலை + பதிவு</span></div>
             </div>
             <a className="primary-cta" href="#register">Join for ₹999 • இப்போதே பதிவு <ArrowRight size={18} /></a>
@@ -69,7 +69,7 @@ export default function Home() {
       </section>
 
       <section id="register" className="registration-section">
-        <div className="registration-copy"><p className="kicker">Sunday, 13 September • ஞாயிறு</p><h2>Reserve your workshop seat.</h2><p className="tamil-register">உங்கள் இடத்தை இப்போதே உறுதி செய்யுங்கள்.</p><p>Complete your details and pay securely. Your registration confirmation and calendar invite will be sent automatically.</p><div className="price-lock"><span>Workshop access • பயிற்சி கட்டணம்</span><strong>₹999</strong></div></div>
+        <div className="registration-copy"><p className="kicker">Starts 14 November 2026 • Every Saturday &amp; Sunday • 10 AM–1 PM IST</p><h2>Reserve your workshop seat.</h2><p className="tamil-register">உங்கள் இடத்தை இப்போதே உறுதி செய்யுங்கள்.</p><p>Complete your details and pay securely. Your registration confirmation and calendar invite will be sent automatically.</p><div className="price-lock"><span>Workshop access • பயிற்சி கட்டணம்</span><strong>₹999</strong></div></div>
         <RegistrationForm />
       </section>
       <footer><div className="brand"><span className="brand-mark">D2D</span><span>Data to Dashboard</span></div><p>Transform Data. Create Impact.</p></footer>

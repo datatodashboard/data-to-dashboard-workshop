@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   const orderResponse = await fetch("https://api.razorpay.com/v1/orders", {
     method: "POST",
     headers: { Authorization: `Basic ${auth}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ amount, currency: "INR", receipt: id, notes: { workshop: "D2D SQL 2026-09-13" } }),
+    body: JSON.stringify({ amount, currency: "INR", receipt: id, notes: { workshop: "D2D SQL 2026-11-14" } }),
   });
   if (!orderResponse.ok) {
     return Response.json({ error: "Payment could not be started. Please try again." }, { status: 502 });
