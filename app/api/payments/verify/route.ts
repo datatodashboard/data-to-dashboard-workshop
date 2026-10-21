@@ -1,22 +1,23 @@
-import { env } from "cloudflare:workers";
-import { confirmPayment, verifyHmac } from "@/lib/funnel";
-
+const endpoint = "https://qklnaqfspvmnlequqagf.supabase.co/functions/v1/workshop-verify-payment";
 export async function POST(request: Request) {
-  const config = env as unknown as Record<string, string | undefined>;
-  const input = (await request.json()) as {
-    razorpay_order_id?: string;
-    razorpay_payment_id?: string;
-    razorpay_signature?: string;
-  };
-  if (!config.RAZORPAY_KEY_SECRET || !input.razorpay_order_id || !input.razorpay_payment_id || !input.razorpay_signature) {
-    return Response.json({ error: "Invalid payment response." }, { status: 400 });
+  try {
+    const input = await request.json();
+    if (!input?.razorpay_order_id || !input?.razorpay_payment_id || !input?.razorpay_signature) {
+      return Response.json({ error: "Invalid payment response." }, { status: 400 });
+    }
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: new URL(request.url).origin },
+      body: JSON.stringify({
+        razorpay_order_id: input.razorpay_order_id,
+        razorpay_payment_id: input.razorpay_payment_id,
+        razorpay_signature: input.razorpay_signature,
+      }),
+      signal: AbortSignal.timeout(25000),
+    });
+    const data = await response.json();
+    return Response.json(data, { status: response.status, headers: { "Cache-Control": "no-store" } });
+  } catch {
+    return Response.json({ pending: true, error: "Payment confirmation is pending. Please do not pay again. Contact Data to Dashboard with your payment ID." }, { status: 502 });
   }
-  const valid = await verifyHmac(
-    `${input.razorpay_order_id}|${input.razorpay_payment_id}`,
-    input.razorpay_signature,
-    config.RAZORPAY_KEY_SECRET,
-  );
-  if (!valid) return Response.json({ error: "Payment verification failed." }, { status: 401 });
-  const lead = await confirmPayment(input.razorpay_order_id, input.razorpay_payment_id);
-  return Response.json({ success: true, registrationId: lead.id });
 }
